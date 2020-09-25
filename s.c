@@ -3,7 +3,7 @@
 #define S(x) Sleep(x)
 #define T 1600
 #define MandA 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6); \
-				printf("¼ÒÁö±İ: %d     °ø°İ·Â: %d\n\n\n", money_g, power_g); \
+				printf("ì†Œì§€ê¸ˆ: %d     ê³µê²©ë ¥: %d	    ì‹ ë£¡ ì²˜ì§€: %d\n\n\n", money_g, power_g, God_stage_g); \
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 #include <stdio.h>
 #include <Windows.h>
@@ -17,42 +17,42 @@ char nickname_g[100];
 char way_g;
 int power_g = 5;
 int money_g;
-
+int God_stage_g = 0; //ì‹ ë£¡ì„ í´ë¦¬ì–´ í•˜ê³ ë‚˜ì„œë¶€í„° ê°ˆ ìˆ˜ ìˆëŠ” ì¥ì†Œ
 
 void CRB(void)
 {
 	while (getchar() != '\n');
 }
 
-void Cursor(int n) // Ä¿¼­ º¸ÀÌ±â & ¼û±â±â
+void Cursor(int n) // ì»¤ì„œ ë³´ì´ê¸° & ìˆ¨ê¸°ê¸°
 {
 	HANDLE hConsole;
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	ConsoleCursor.bVisible = n; //0ÀÌ¸é ¾È º¸ÀÌ°í 1ÀÌ¸é º¸ÀÓ
-	ConsoleCursor.dwSize = 1; // Ä¿¼­ »çÀÌÁî
+	ConsoleCursor.bVisible = n; //0ì´ë©´ ì•ˆ ë³´ì´ê³  1ì´ë©´ ë³´ì„
+	ConsoleCursor.dwSize = 1; // ì»¤ì„œ ì‚¬ì´ì¦ˆ
 
 	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
 }
 
 void Set_Nickname()
 {
-	puts("´Ğ³×ÀÓÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä: ");
+	puts("ë‹‰ë„¤ì„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”: ");
 	scanf("%s", nickname_g);
 	cls;
 }
 
 void Tutorial_Story()
 {
-	puts("´ç½ÅÀº ¹ÌÁöÀÇ ½£À¸·Î º¸¹°À» Ã£±â À§ÇØ ¸ğÇèÀ» ¶°³³´Ï´Ù.");
+	puts("ë‹¹ì‹ ì€ ë¯¸ì§€ì˜ ìˆ²ìœ¼ë¡œ ë³´ë¬¼ì„ ì°¾ê¸° ìœ„í•´ ëª¨í—˜ì„ ë– ë‚©ë‹ˆë‹¤.");
 	S(T);
-	puts("±æÀº ÃÑ 3°¥·¡°¡ ÀÖÀ¸¸ç, a s d ·Î ¼±ÅÃÀÌ °¡´ÉÇÕ´Ï´Ù.");
+	puts("ê¸¸ì€ ì´ 3ê°ˆë˜ê°€ ìˆìœ¼ë©°, a s d ë¡œ ì„ íƒì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 	S(T);
-	puts("Å½Çè µµÁß °¢Á¾ ÀÌº¥Æ®°¡ ¹ß»ıÇÕ´Ï´Ù.");
+	puts("íƒí—˜ ë„ì¤‘ ê°ì¢… ì´ë²¤íŠ¸ê°€ ë°œìƒí•©ë‹ˆë‹¤.");
 	S(T);
-	puts("±×·³... ½ÃÀÛÇÕ´Ï´Ù.");
+	puts("ê·¸ëŸ¼... ì‹œì‘í•©ë‹ˆë‹¤.");
 	S(T + 500);
 
 	cls;
@@ -61,7 +61,7 @@ void Tutorial_Story()
 void Select_Way()
 {
 	MandA
-	puts("´ç½ÅÀÇ ´« ¾Õ¿¡ ¼¼ °¡Áö ±æÀÌ ÆîÃÄÁ® ÀÖ½À´Ï´Ù.a s d·Î ¼±ÅÃÇØÁÖ¼¼¿ä.\n");
+	puts("ë‹¹ì‹ ì˜ ëˆˆ ì•ì— ì„¸ ê°€ì§€ ê¸¸ì´ í¼ì³ì ¸ ìˆìŠµë‹ˆë‹¤.a s dë¡œ ì„ íƒí•´ì£¼ì„¸ìš”.\n");
 	scanf("%c", &way_g);
 	cls;
 }
@@ -71,24 +71,25 @@ void Monster_Way()
 	PlaySound(TEXT("2-12.wav"), NULL, SND_ASYNC | SND_LOOP);
 	MandA
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
-	puts("¸ó½ºÅÍ°¡ ³ªÅ¸³µ´Ù!!\n");
+	puts("ëª¬ìŠ¤í„°ê°€ ë‚˜íƒ€ë‚¬ë‹¤!!\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	S(T + 500);
 
-	int monster_hp = ((rand() % (power_g + 3)) + (power_g - 3)); //¸ó½ºÅÍ¸¦ ÀÌ±æ ±âÁØÀ», Ä³¸¯ÅÍÀÇ Èû ÇÃ¸¶3À» ±âÁØÀ¸·Î ·£´ı »ı¼º
-	printf("ÀÌ ¸ó½ºÅÍ´Â °ø°İ·ÂÀÌ %dÀÌ»óÀÌ¸é ÀÌ±æ ¼ö ÀÖÀ» °Í °°´Ù.\n\n", monster_hp);
+	int monster_hp = (power_g + 3) - (rand() % 7); //ëª¬ìŠ¤í„°ë¥¼ ì´ê¸¸ ê¸°ì¤€ì„, ìºë¦­í„°ì˜ í˜ í”Œë§ˆ3ì„ ê¸°ì¤€ìœ¼ë¡œ ëœë¤ ìƒì„±
+	printf("ì´ ëª¬ìŠ¤í„°ëŠ” ê³µê²©ë ¥ì´ %dì´ìƒì´ë©´ ì´ê¸¸ ìˆ˜ ìˆì„ ê²ƒ ê°™ë‹¤.\n\n", monster_hp);
 	S(T + 500);
 
 	if (power_g >= monster_hp)
 	{
-		puts("¸ó½ºÅÍ¸¦ ¾²·Á¶ß·È´Ù.\n");
+		puts("ëª¬ìŠ¤í„°ë¥¼ ì“°ë ¤ëœ¨ë ¸ë‹¤.\n");
 		S(T);
-		printf("%d¿øÀ» ÀÔ¼öÇß´Ù.\n", monster_hp);
+		printf("%dì›ê³¼ ëª¬ìŠ¤í„°ì˜ ê³µê²©ë ¥ì„ íšë“í–ˆë‹¤.\n", monster_hp);
 		money_g += monster_hp;
+		power_g += monster_hp;
 	}
 	else
 	{
-		puts("¸ó½ºÅÍ°¡ ³Ê¹« °­ÇÏ´Ù. ¿Ô´ø ±æ·Î µµ¸ÁÄ¡ÀÚ..\n");
+		puts("ëª¬ìŠ¤í„°ê°€ ë„ˆë¬´ ê°•í•˜ë‹¤. ì™”ë˜ ê¸¸ë¡œ ë„ë§ì¹˜ì..\n");
 		S(T);
 	}
 	S(T * 2);
@@ -98,19 +99,19 @@ void Monster_Way()
 void Treasure_Way()
 {
 	MandA
-	puts("ÅÍ¹÷ ÅÍ¹÷.\n");
+	puts("í„°ë²… í„°ë²….\n");
 	S(T);
-	puts("Äâ´ç\n");
+	puts("ì½°ë‹¹\n");
 	S(T);
-	puts("±æÀ» °È´Ù µ¹ºÎ¸®¿¡ °É·Á ³Ñ¾îÁ³´Ù.\n");
+	puts("ê¸¸ì„ ê±·ë‹¤ ëŒë¶€ë¦¬ì— ê±¸ë ¤ ë„˜ì–´ì¡Œë‹¤.\n");
 	S(T);
 	PlaySound(TEXT("cb.wav"), NULL, SND_ASYNC | SND_LOOP);
-	puts("ÀÚ¼¼È÷ »ìÆìº¸´Ï ¶¥¿¡ »óÀÚ°¡ ¹ÚÇôÀÖ´Ù!\n");
+	puts("ìì„¸íˆ ì‚´í´ë³´ë‹ˆ ë•…ì— ìƒìê°€ ë°•í˜€ìˆë‹¤!\n");
 	S(T);
-	puts("³¢ÀÌÀÌÀÌÀÍ\n");
+	puts("ë¼ì´ì´ì´ìµ\n");
 	S(T + 500);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-	printf("³î¶ø°Ôµµ »óÀÚ ¾È¿¡´Â %d¿øÀÌ µé¾î ÀÖ¾ú´Ù!\n", power_g + 100);
+	printf("ë†€ëê²Œë„ ìƒì ì•ˆì—ëŠ” %dì›ì´ ë“¤ì–´ ìˆì—ˆë‹¤!\n", power_g + 100);
 	money_g += power_g + 100;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	S(T * 2);
@@ -121,20 +122,20 @@ void Treasure_Way()
 void Trap_Way()
 {
 	MandA
-	puts("... ¿ØÁö ÀÌÂÊ ±æÀº ¹¦ÇÏ°Ô ºÒ±æÇÑ ´À³¦ÀÌ µç´Ù.\n");
+	puts("... ì™ ì§€ ì´ìª½ ê¸¸ì€ ë¬˜í•˜ê²Œ ë¶ˆê¸¸í•œ ëŠë‚Œì´ ë“ ë‹¤.\n");
 	S(T);
 	PlaySound(TEXT("Trap.wav"), NULL, SND_ASYNC | SND_LOOP);
-	puts("Â¼ÀúÀúÀû\n");
+	puts("ì©Œì €ì €ì \n");
 	S(T);
-	puts("¶¥ÀÌ ¹ØÀ¸·Î ²¨Áö±â ½ÃÀÛÇÑ´Ù. ¾Æ¹«·¡µµ ÇÔÁ¤ÀÎ ¸ğ¾çÀÌ´Ù.\n");
+	puts("ë•…ì´ ë°‘ìœ¼ë¡œ êº¼ì§€ê¸° ì‹œì‘í•œë‹¤. ì•„ë¬´ë˜ë„ í•¨ì •ì¸ ëª¨ì–‘ì´ë‹¤.\n");
 	S(T);
-	puts("ÈÄµÎµÎµÎµÏ. ³» Áö°©¿¡¼­ µ¿ÀüµéÀÌ ¶³¾îÁö´Â ¼Ò¸®°¡ µé·È´Ù.\n");
+	puts("í›„ë‘ë‘ë‘ë‘‘. ë‚´ ì§€ê°‘ì—ì„œ ë™ì „ë“¤ì´ ë–¨ì–´ì§€ëŠ” ì†Œë¦¬ê°€ ë“¤ë ¸ë‹¤.\n");
 	S(T);
-	puts("µµ¸ÁÄ¡´Âµ¥ ¿­ÁßÇÑ ³ª¸ÓÁö ´Ù¸¥ °÷¿¡ ½Å°æ ¾µ °Ü¸¦ÀÌ ¾ø¾ú´Ù.\n");
+	puts("ë„ë§ì¹˜ëŠ”ë° ì—´ì¤‘í•œ ë‚˜ë¨¸ì§€ ë‹¤ë¥¸ ê³³ì— ì‹ ê²½ ì“¸ ê²¨ë¥¼ì´ ì—†ì—ˆë‹¤.\n");
 	if (money_g >= power_g + 10)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
-		printf("%d¿øÀ» ³õÃÄ¹ö·È´Ù...\n", power_g + 10);
+		printf("%dì›ì„ ë†“ì³ë²„ë ¸ë‹¤...\n", power_g + 10);
 		money_g -= power_g + 10;
 		if (money_g < 0)
 			money_g = 0;
@@ -149,20 +150,20 @@ void Upgrade_Way()
 {
 	MandA
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-	printf("..! %d¿øÀ» ´øÁö¸é °ø°İ·ÂÀ» ·£´ıÀ¸·Î ¿Ã·ÁÁØ´Ù´Â ¿ì¹°À» ¹ß°ßÇß´Ù!\n\n", power_g + 10);
+	printf("..! %dì›ì„ ë˜ì§€ë©´ ê³µê²©ë ¥ì„ ëœë¤ìœ¼ë¡œ ì˜¬ë ¤ì¤€ë‹¤ëŠ” ìš°ë¬¼ì„ ë°œê²¬í–ˆë‹¤!\n\n", power_g + 10);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	S(T + 500);
 
 	if (money_g >= power_g + 10)
 	{
-		puts("¿ì¹°¿¡ µ·À» ´øÁöÀÚ ¼º½º·¯¿î ºûÀÌ ³ª¸¦ °¨½Ñ´Ù.\n");
+		puts("ìš°ë¬¼ì— ëˆì„ ë˜ì§€ì ì„±ìŠ¤ëŸ¬ìš´ ë¹›ì´ ë‚˜ë¥¼ ê°ì‹¼ë‹¤.\n");
 		S(1500);
-		printf("°ø°İ·ÂÀÌ %d¸¸Å­ Áõ°¡Çß´Ù.", (int)(power_g / 2));
+		printf("ê³µê²©ë ¥ì´ %dë§Œí¼ ì¦ê°€í–ˆë‹¤.", (int)(power_g / 2));
 		power_g += (int)(power_g / 2);
 	}
 	else
 	{
-		puts("¾Æ½±Áö¸¸ µ·ÀÌ ºÎÁ·ÇÏ´Ù.. ´ÙÀ½¿¡ ´Ù½Ã ¿ÀÀÚ.\n");
+		puts("ì•„ì‰½ì§€ë§Œ ëˆì´ ë¶€ì¡±í•˜ë‹¤.. ë‹¤ìŒì— ë‹¤ì‹œ ì˜¤ì.\n");
 	}
 	S(T * 2);
 	cls;
@@ -171,9 +172,9 @@ void Upgrade_Way()
 void Nothing_Way()
 {
 	MandA
-	puts("ÅÍ¹÷ ÅÍ¹÷.\n");
+	puts("í„°ë²… í„°ë²….\n");
 	S(T);
-	puts("¾Æ¹«°Íµµ Ã£À» ¼ö ¾ø´Ù.\n");
+	puts("ì•„ë¬´ê²ƒë„ ì°¾ì„ ìˆ˜ ì—†ë‹¤.\n");
 	S(T * 2);
 	cls;
 }
@@ -181,11 +182,11 @@ void Nothing_Way()
 void Obstacle_Way()
 {
 	MandA
-	puts("¶Ñ¹÷ ¶Ñ¹÷.\n");
+	puts("ëšœë²… ëšœë²….\n");
 	S(T);
-	puts("...? °Å´ëÇÑ µ¹µ¢ÀÌ°¡ ±æÀ» °¡·Î¸·°íÀÖ´Ù.\n");
+	puts("...? ê±°ëŒ€í•œ ëŒë©ì´ê°€ ê¸¸ì„ ê°€ë¡œë§‰ê³ ìˆë‹¤.\n");
 	S(T);
-	puts("¿Ô´ø±æ·Î µ¹¾Æ°¡ÀÚ.\n");
+	puts("ì™”ë˜ê¸¸ë¡œ ëŒì•„ê°€ì.\n");
 	S(T * 2);
 
 	cls;
@@ -194,16 +195,16 @@ void Obstacle_Way()
 void Money_Way()
 {
 	MandA
-	puts("..°è¼Ó ¹İº¹µÇ´Â ÀÌ Ç³°æÀÌ ÀÌÁ¦´Â Áö°Ü¿öÁö±â ½ÃÀÛÇÑ´Ù.\n");
+	puts("..ê³„ì† ë°˜ë³µë˜ëŠ” ì´ í’ê²½ì´ ì´ì œëŠ” ì§€ê²¨ì›Œì§€ê¸° ì‹œì‘í•œë‹¤.\n");
 	S(T);
 	PlaySound(TEXT("Gang.wav"), NULL, SND_ASYNC | SND_LOOP);
-	puts("Åö.\n");
+	puts("íˆ­.\n");
 	S(T);
-	puts("µ¥±¼µ¥±¼.\n");
+	puts("ë°êµ´ë°êµ´.\n");
 	S(T);
-	puts("...? ±æÀ» °È´Ù ¹«½ÉÄÚ ¹«¾ğ°¡¸¦ ¹ß·Î Â÷¹ö·È´Ù.\n");
+	puts("...? ê¸¸ì„ ê±·ë‹¤ ë¬´ì‹¬ì½” ë¬´ì–¸ê°€ë¥¼ ë°œë¡œ ì°¨ë²„ë ¸ë‹¤.\n");
 	S(T);
-	printf("..!! %d¿øÀ» ÁÖ¿ü´Ù.\n", power_g + 10);
+	printf("..!! %dì›ì„ ì£¼ì› ë‹¤.\n", power_g + 10);
 	money_g += power_g + 10;
 	S(T * 2);
 
@@ -213,7 +214,7 @@ void Money_Way()
 void Badmood_Way()
 {
 	MandA
-	puts("..? ÀÌ ±æÀº ¿ØÁö ¿¹°¨ÀÌ ÁÁÁö ¾Ê´Ù. ´Ù¸¥ ±æÀ» ¼±ÅÃÇÏÀÚ.\n");
+	puts("..? ì´ ê¸¸ì€ ì™ ì§€ ì˜ˆê°ì´ ì¢‹ì§€ ì•Šë‹¤. ë‹¤ë¥¸ ê¸¸ì„ ì„ íƒí•˜ì.\n");
 	S(T*2);
 
 	cls;
@@ -222,11 +223,11 @@ void Badmood_Way()
 void Rest_Way()
 {
 	MandA
-	puts("Àú¹÷ Àú¹÷.\n");
+	puts("ì €ë²… ì €ë²….\n");
 	S(T);
-	puts("ÇÑÂüÀ» °è¼Ó °É¾îµµ Æ¯º°È÷ ´«¿¡ ¶ç´Â°Ç ¾ø´Ù.\n");
+	puts("í•œì°¸ì„ ê³„ì† ê±¸ì–´ë„ íŠ¹ë³„íˆ ëˆˆì— ë„ëŠ”ê±´ ì—†ë‹¤.\n");
 	S(T);
-	puts("°¥¼ö·Ï ÁöÃÄ°£´Ù....\n");
+	puts("ê°ˆìˆ˜ë¡ ì§€ì³ê°„ë‹¤....\n");
 	S(T * 2);
 
 	cls;
@@ -235,32 +236,69 @@ void Rest_Way()
 void Unique_Event()
 {
 	MandA
-	puts("..! ½£ ¼Ó¿¡¼­ °Å´ëÇÑ µ¿±¼À» ¹ß°ßÇß´Ù.\n");
+	puts("..! ìˆ² ì†ì—ì„œ ê±°ëŒ€í•œ ë™êµ´ì„ ë°œê²¬í–ˆë‹¤.\n");
 	S(T);
-	puts("¹®¿¡ ¼ÕÀ» ´ë´Â ¼ø°£, ÇÏ´Ã¿¡¼­ ¿ëÀÌ ¸ğ½ÀÀ» µå·¯³½´Ù.\n");
+	puts("ë¬¸ì— ì†ì„ ëŒ€ëŠ” ìˆœê°„, í•˜ëŠ˜ì—ì„œ ìš©ì´ ëª¨ìŠµì„ ë“œëŸ¬ë‚¸ë‹¤.\n");
 	S(T);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
-	puts("³­ ¿©±â¸¦ ÁöÅ°´Â ½Å·æÀÌ´Ù... ¿©±ä ÀÎ°£µûÀ§°¡ ¿Ã °÷ÀÌ ¾Æ´Ï´Ù.. ½â ¹°·¯°¡¶ó!!\n");
+	puts("ë‚œ ì—¬ê¸°ë¥¼ ì§€í‚¤ëŠ” ì‹ ë£¡ì´ë‹¤... ì—¬ê¸´ ì¸ê°„ë”°ìœ„ê°€ ì˜¬ ê³³ì´ ì•„ë‹ˆë‹¤.. ì© ë¬¼ëŸ¬ê°€ë¼!!\n");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	S(T + 500);
 
-	if (power_g >= 500)
+	if (power_g >= 100)
 	{
-		puts("Áö±İ ³» °ø°İ·ÂÀÌ¶ó¸é Àú ¿ëµµ °Å¶áÇÒ °Í °°´Ù.\n");
+		puts("ì§€ê¸ˆ ë‚´ ê³µê²©ë ¥ì´ë¼ë©´ ì € ìš©ë„ ê±°ëœ¬í•  ê²ƒ ê°™ë‹¤.\n");
 		S(T);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
-		puts("¾î¸®¼®Àº ÀÎ°£ÀÌ¿©... ¾îµğ ´ıº­º¸¾Æ¶ó!!\n");
+		puts("ì–´ë¦¬ì„ì€ ì¸ê°„ì´ì—¬... ì–´ë”” ë¤ë²¼ë³´ì•„ë¼!!\n");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 		S(T);
-		puts("³¯°³¸¦ ÆŞ·°ÀÌÀÚ ¿Â ´ëÁö°¡ ¿äµ¿Ä£´Ù.\n");
+		puts("ë‚ ê°œë¥¼ í„ëŸ­ì´ì ì˜¨ ëŒ€ì§€ê°€ ìš”ë™ì¹œë‹¤.\n");
+		S(T);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+		puts("í¬í­.. ì¸ê°„ì£¼ì œì— ì œë²•ì´êµ°..\n");
+		S(T);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		puts("ë„¤ ì•½ì ì€ ì´ë¯¸ ê°„íŒŒí–ˆë‹¤!! ë°›ì•„ë¼!!!!!!\n");
+		S(T);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+		puts("ì•„ë‹ˆ ì´ëŸ´ìˆ˜ê°€..?!\n");
+		S(T);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		puts("ê³ ëŒ€ ì‹ ë£¡ì„ ì²˜ì§€í–ˆë‹¤. ê³ ëŒ€ì‹ ë£¡ì˜ ê°€í˜¸ë¥¼ ì†ì— ë„£ì—ˆë‹¤.\n");
+		S(T);
+		puts("ê³µê²©ë ¥ì´ ë¬´ë ¤ 100ì´ ì¦ê°€í–ˆë‹¤!\n");
+		S(T);
+		puts("ìƒˆë¡œìš´ ìŠ¤í…Œì´ì§€, <ì‹ ì˜ ê±°ì²˜> ì—ë„ ê°ˆ ìˆ˜ ìˆê²Œ ëë‹¤!!!\n");
+
+		God_stage_g++;
 	}
 	else
 	{
-		puts("Àú ¿ëÀ» ÀÌ±ä´Ù¸é ÀÌ °÷¿¡ µé¾î°¥ ¼ö ÀÖ°ÚÁö¸¸, ³Ê¹« °­ÇØº¸ÀÎ´Ù. ³ªÁß¿¡ ½Ç·ÂÀ» ´õ Å°¿ö¼­ ¿ÀÀÚ.\n");
+		puts("ì € ìš©ì„ ì´ê¸´ë‹¤ë©´ ì´ ê³³ì— ë“¤ì–´ê°ˆ ìˆ˜ ìˆê² ì§€ë§Œ, ë„ˆë¬´ ê°•í•´ë³´ì¸ë‹¤. ì ì–´ë„ ê³µê²©ë ¥ì´ 100ì€ ë„˜ì–´ì•¼ í•  ê²ƒ ê°™ë‹¤. ë‚˜ì¤‘ì— ì‹¤ë ¥ì„ ë” í‚¤ì›Œì„œ ì˜¤ì.\n");
 		S(T + 500);
-		puts("°ú¿¬.. ÀÌ°÷¿¡´Â ¹«¾ùÀÌ °¨ÃçÁ® ÀÖ´Â °É±î.\n");
+		puts("ê³¼ì—°.. ì´ê³³ì—ëŠ” ë¬´ì—‡ì´ ê°ì¶°ì ¸ ìˆëŠ” ê±¸ê¹Œ.\n");
 	}
 	S(T * 2);
+	cls;
+}
+
+void God()
+{
+	PlaySound(TEXT("sa.wav"), NULL, SND_ASYNC | SND_LOOP);
+	MandA
+	puts("""ì—¬ê¸°ëŠ”..?"" ì§€ê¸ˆê¹Œì§€ ë‹¤ë…”ë˜ ì¥ì†Œí•˜ê³ ëŠ” ì‚¬ë­‡ ë‹¤ë¥¸ ëŠë‚Œì´ ëŠê»´ì§„ë‹¤.\n");
+	S(T *2);
+	puts("...! ë‚´ê°€ ì—¬ê¸° ë‹¹ë„í•  ê²ƒì„ ì˜ˆì¸¡ì´ë¼ë„ í•œ ë“¯ ì‹ ì´ ë‚˜ë¥¼ ê¸°ë‹¤ë¦¬ê³  ìˆë‹¤.\n");
+	S(T * 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
+	puts("[ ? : .... ] ì‹ ì´ ë‚˜ë¥¼ ì‘ì‹œí•œë‹¤.\n");
+	S(T * 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+	puts("..?! ëˆˆë¹›ì˜ ì¤‘ì••ê°ìœ¼ë¡œ ìˆ¨ê³¼ ëª¸ì„ ì»¨íŠ¸ë¡¤ í•  ìˆ˜ ì—†ë‹¤.\n");
+	S(T * 2);
+	puts("ì‹ ì„ ì§ˆë¦° ë“¯ ë‚˜ë¥¼ ë³´ë©° ìœ ìœ íˆ ë– ë‚˜ê°”ë‹¤. ì‹ ì´ ìƒëŒ€í•´ ì£¼ê¸¸ ë°”ë€ë‹¤ë©´ ì ì–´ë„ ê³µê²©ë ¥ì´ 1000ì€ ë„˜ì–´ì•¼ í•  ê²ƒ ê°™ë‹¤.\n");
+	S((T * 2) + 3000);
 	cls;
 }
 
@@ -268,9 +306,9 @@ void Unique_Event()
 int main()
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	system("title ´ëÈ­Çü RPG°ÔÀÓ - beta Ver");
+	system("title ëŒ€í™”í˜• RPGê²Œì„ - beta Ver");
 	Cursor(0);
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	Set_Nickname();
 
@@ -280,64 +318,67 @@ int main()
 	for (;;)
 	{
 		PlaySound(TEXT("Tears of The World.wav"), NULL, SND_ASYNC | SND_LOOP);
-		CRB(); // ¹öÆÛ ºñ¿ì±â
+		CRB(); // ë²„í¼ ë¹„ìš°ê¸°
 		Select_Way();
 
-		int random = rand() % 135; // 0 ~ 134
+		int random = rand() % 200; // 0 ~ 134
 
-		if (random <= 19)
+		if (random <= 39)
 			Monster_Way();
-		else if (random < 30)
+		else if (random < 50)
 			Treasure_Way();
-		else if (random <= 41)
+		else if (random <= 61)
 			Trap_Way();
-		else if (random <= 52)
+		else if (random <= 72)
 			Upgrade_Way();
-		else if (random <= 73)
+		else if (random <= 93)
 			Nothing_Way();
-		else if (random <= 94)
+		else if (random <= 114)
 			Obstacle_Way();
-		else if (random <= 105)
+		else if (random <= 125)
 			Money_Way();
-		else if (random <= 116)
+		else if (random <= 136)
 			Badmood_Way();
-		else if (random <= 128)
+		else if (random <= 158)
 			Rest_Way();
-		else
+		else if (random <= 179)
 			Unique_Event();
+		else if (random >= 180 && God_stage_g >= 1)
+			God();
 	}
 
 	/*
-¸ó½ºÅÍ µîÀå 20ÇÁ·Î 0 ~ 19
+ëª¬ìŠ¤í„° ë“±ì¥ 20í”„ë¡œ 0 ~ 19
 
-º¸¹°»óÀÚ ¹ß°ß10ÇÁ·Î 20 ~ 30
+ë³´ë¬¼ìƒì ë°œê²¬10í”„ë¡œ 20 ~ 30
 
-Æ®·¦ ÇÔÁ¤, µ· °¨¼Ò  10ÇÁ·Î  31 ~ 41
+íŠ¸ë© í•¨ì •, ëˆ ê°ì†Œ  10í”„ë¡œ  31 ~ 41
 
-°ø°İ·Â »ó½Â 10ÇÁ·Î 42 ~ 52
+ê³µê²©ë ¥ ìƒìŠ¹ 10í”„ë¡œ 42 ~ 52
 
-¾Æ¹«°Íµµ ¾øÀ½ 20ÇÁ·Î 53 ~ 73
+ì•„ë¬´ê²ƒë„ ì—†ìŒ 20í”„ë¡œ 53 ~ 73
 
-±æ ¸·Èû 20ÇÁ·Î 74 ~ 94
+ê¸¸ ë§‰í˜ 20í”„ë¡œ 74 ~ 94
 
-µ· ÁÖÀ½ 10ÇÁ·Î 95 ~ 105
+ëˆ ì£¼ìŒ 10í”„ë¡œ 95 ~ 105
 
-³ª»Û ¿¹°¨ ±æ ´Ù¸¥°÷ 106 ~ 116
+ë‚˜ìœ ì˜ˆê° ê¸¸ ë‹¤ë¥¸ê³³ 106 ~ 116
 
-ÈŞ½Ä 117 ~ 128
+íœ´ì‹ 117 ~ 128
 
-½Å·æ°úÀÇ ÀüÅõ 129 ~ 134
+ì‹ ë£¡ê³¼ì˜ ì „íˆ¬ 129 ~ 134
+
+ì‹ ë“¤ì˜ ê±°ì²˜
 
 
-
-----ºê±İ
-¹è°æÀ½ - Æ¼¾îÁî ¿Àºê ¿ùµå
-¸ó½ºÅÍ µîÀåÀ½ - 2-12
-º¸¹°»óÀÚ ¹ß°ß - ÄÄ¸Ó½º ¹èÆ²
-Æ®·¦ - Trap
-°ø°İ·Â »ó½Â
-µ· ÁÖÀ½
-ÈŞ½Ä - gang
+----ë¸Œê¸ˆ
+ë°°ê²½ìŒ - í‹°ì–´ì¦ˆ ì˜¤ë¸Œ ì›”ë“œ
+ëª¬ìŠ¤í„° ë“±ì¥ìŒ - 2-12
+ë³´ë¬¼ìƒì ë°œê²¬ - ì»´ë¨¸ìŠ¤ ë°°í‹€
+íŠ¸ë© - Trap
+ê³µê²©ë ¥ ìƒìŠ¹
+ëˆ ì£¼ìŒ
+íœ´ì‹ - gang
 	*/
 
 
